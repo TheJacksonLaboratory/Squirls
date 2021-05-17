@@ -71,36 +71,30 @@
  *
  * version:6-8-18
  *
- * Daniel Danis, Peter N Robinson, 2020
+ * Daniel Danis, Peter N Robinson, 2021
  */
 
-package org.monarchinitiative.squirls.autoconfigure.exception;
+package org.monarchinitiative.squirls.bootstrap;
+
+import org.monarchinitiative.squirls.core.SquirlsDataService;
+import org.monarchinitiative.squirls.core.VariantSplicingEvaluator;
+import org.monarchinitiative.squirls.core.classifier.SquirlsClassifier;
+import org.monarchinitiative.squirls.core.scoring.SplicingAnnotator;
+import org.monarchinitiative.squirls.initialize.SquirlsResourceVersion;
 
 /**
- * This exception is thrown during auto-configuration, if an information that should have been provided by the user
- * is missing or if the information is not well-formatted.
- *
  * @author Daniel Danis
  */
-public class UndefinedSquirlsResourceException extends Exception {
+public interface Squirls {
 
-    public UndefinedSquirlsResourceException() {
-        super();
-    }
+    SquirlsResourceVersion resourceVersion();
 
-    public UndefinedSquirlsResourceException(String message) {
-        super(message);
-    }
+    SquirlsDataService squirlsDataService();
 
-    public UndefinedSquirlsResourceException(String message, Throwable cause) {
-        super(message, cause);
-    }
+    SplicingAnnotator splicingAnnotator();
 
-    public UndefinedSquirlsResourceException(Throwable cause) {
-        super(cause);
-    }
+    SquirlsClassifier squirlsClassifier();
 
-    protected UndefinedSquirlsResourceException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
+    VariantSplicingEvaluator variantSplicingEvaluator();
+
 }

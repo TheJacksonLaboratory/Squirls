@@ -74,68 +74,56 @@
  * Daniel Danis, Peter N Robinson, 2021
  */
 
-package org.monarchinitiative.squirls.autoconfigure;
+package org.monarchinitiative.squirls.bootstrap;
 
-import org.monarchinitiative.squirls.core.SquirlsDataService;
-import org.monarchinitiative.squirls.core.reference.StrandedSequence;
-import org.monarchinitiative.squirls.core.reference.StrandedSequenceService;
-import org.monarchinitiative.squirls.core.reference.TranscriptModel;
-import org.monarchinitiative.squirls.core.reference.TranscriptModelService;
-import org.monarchinitiative.svart.GenomicAssembly;
-import org.monarchinitiative.svart.GenomicRegion;
+import org.monarchinitiative.squirls.initialize.ClassifierProperties;
 
-import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * @author Daniel Danis
  */
-public class SquirlsDataServiceImpl implements SquirlsDataService {
+public class SimpleClassifierProperties implements ClassifierProperties {
 
-    private final StrandedSequenceService sequenceService;
-    private final TranscriptModelService transcriptModelService;
+    private String version = "v0.4.6";
+    private int maxVariantLength = 100;
 
-    public SquirlsDataServiceImpl(StrandedSequenceService sequenceService, TranscriptModelService transcriptModelService) {
-        this.sequenceService = sequenceService;
-        this.transcriptModelService = transcriptModelService;
+    @Override
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 
     @Override
-    public GenomicAssembly genomicAssembly() {
-        return sequenceService.genomicAssembly();
+    public int getMaxVariantLength() {
+        return maxVariantLength;
     }
 
-    @Override
-    public StrandedSequence sequenceForRegion(GenomicRegion region) {
-        return sequenceService.sequenceForRegion(region);
-    }
-
-    @Override
-    public List<String> getTranscriptAccessionIds() {
-        return transcriptModelService.getTranscriptAccessionIds();
-    }
-
-    @Override
-    public List<TranscriptModel> overlappingTranscripts(GenomicRegion query) {
-        return transcriptModelService.overlappingTranscripts(query);
-    }
-
-    @Override
-    public Optional<TranscriptModel> transcriptByAccession(String txAccession) {
-        return transcriptModelService.transcriptByAccession(txAccession);
+    public void setMaxVariantLength(int maxVariantLength) {
+        this.maxVariantLength = maxVariantLength;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SquirlsDataServiceImpl that = (SquirlsDataServiceImpl) o;
-        return Objects.equals(sequenceService, that.sequenceService) && Objects.equals(transcriptModelService, that.transcriptModelService);
+        SimpleClassifierProperties that = (SimpleClassifierProperties) o;
+        return maxVariantLength == that.maxVariantLength && Objects.equals(version, that.version);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sequenceService, transcriptModelService);
+        return Objects.hash(version, maxVariantLength);
+    }
+
+    @Override
+    public String toString() {
+        return "SimpleClassifierProperties{" +
+                "version='" + version + '\'' +
+                ", maxVariantLength=" + maxVariantLength +
+                '}';
     }
 }
